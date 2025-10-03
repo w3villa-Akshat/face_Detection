@@ -1,0 +1,9 @@
+intel-tensorflow==2.14.0
+keras==2.14.0
+ml-dtypes==0.2.0
+tensorboard==2.14
+protobuf==3.20.3
+numpy==1.24.4
+opencv-python==4.7.0.72
+faiss-cpu==1.7.4
+deepface==0.0.95
