@@ -4,7 +4,7 @@ import cv2
 from utils import detect_faces_gray, crop_face, get_embedding_from_face
 from faiss_index import FaissIndexManager
 
-THRESHOLD = 0.5  # adjust based on your embedding distances
+THRESHOLD = 0.6  # adjust based on your embedding distances
 
 def recognize_face(embedding, idx_mgr):
     

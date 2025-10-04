@@ -46,11 +46,11 @@ def get_embedding_from_face(face_bgr):
     if isinstance(rep, list) and rep:
         rep_item = rep[0]
         if isinstance(rep_item, dict) and 'embedding' in rep_item:
-            vec = np.array(rep_item['embedding'], dtype=np.float32)
+            vec = np.array(rep_item['embedding'], dtype=np.float16)
         else:
-            vec = np.array(rep_item, dtype=np.float32)
+            vec = np.array(rep_item, dtype=np.float16)
     elif isinstance(rep, dict) and 'embedding' in rep:
-        vec = np.array(rep['embedding'], dtype=np.float32)
+        vec = np.array(rep['embedding'], dtype=np.float16)
 
     if vec is None:
         return None

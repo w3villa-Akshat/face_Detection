@@ -1,6 +1,6 @@
 import sqlite3
 import os
-import pickle
+import zlib
 import numpy as np
 
 DB_PATH = "face_db.sqlite"
@@ -27,8 +27,7 @@ def init_db():
 def add_embedding(name: str, vector: np.ndarray):
     conn = get_conn()
     c = conn.cursor()
-    # blob = pickle.dumps(vector.astype(np.float32), protocol=pickle.HIGHEST_PROTOCOL)
-    blob = vector.tobytes()
+    blob = zlib.compress(vector.astype(np.float16).tobytes())
     c.execute('INSERT INTO embeddings (name, vector) VALUES (?, ?)', (name, sqlite3.Binary(blob)))
     conn.commit()
     last_id = c.lastrowid
@@ -41,10 +40,12 @@ def get_all_embeddings():
     c = conn.cursor()
     c.execute('SELECT id, name, vector FROM embeddings')
     rows = c.fetchall()
+
     conn.close()
     result = []
     for _id, name, blob in rows:
-        vec = pickle.loads(blob)
-        result.append((_id, name, np.array(vec, dtype=np.float32)))
+        vec = vec = np.frombuffer(zlib.decompress(blob), dtype=np.float16).astype(np.float32)
+        result.append((_id, name, vec))
     return result
 
+get_all_embeddings()
